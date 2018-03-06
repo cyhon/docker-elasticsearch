@@ -1,0 +1,28 @@
+.catalog:
+  name: "Elasticsearch"
+  version: "5.6"
+  description: "Elasticsearch Cluster"
+  minimum_rancher_version: v1.6.0
+  questions:
+    - variable: cluster_name
+      label: "cluster name"
+      description: ""
+      required: true
+      type: "string"
+      default: "finochat"
+    - variable: master_scale
+      description: "How many containers the Elasticsearch master node will scale to?"
+      label: "master scale"
+      type: "int"
+      required: true
+      default: "3"
+    - variable: min_master
+      description: "minimum master node number"
+      label: "min master"
+      type: "int"
+      required: true
+      default: "2"
+
+es-master:
+  scale: ${master_scale}
+  retain_ip: true

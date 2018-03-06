@@ -1,0 +1,34 @@
+version: '2'
+services:
+    es-master:
+      image: docker.finogeeks.club/base/elasticsearch
+      environment:
+        TYPE: MASTER
+        UNICAST_HOSTS: es-master
+        MIN_MASTERS: ${min_master}
+      labels:
+        io.rancher.container.hostname_override: container_name
+        io.rancher.container.pull_image: always
+    es-data:
+      image: docker.finogeeks.club/base/elasticsearch
+      environment:
+        TYPE: DATA
+        UNICAST_HOSTS: es-master
+      labels:
+        io.rancher.scheduler.affinity:container_label_soft_ne: io.rancher.stack_service.name=$${stack_name}/$${service_name}
+        io.rancher.scheduler.affinity:host_label: es.cluster.data=${cluster_name}
+        io.rancher.container.hostname_override: container_name
+        io.rancher.container.pull_image: always
+    es-gateway:
+      image: docker.finogeeks.club/base/elasticsearch
+      environment:
+        TYPE: GATEWAY
+        UNICAST_HOSTS: es-master
+      labels:
+        io.rancher.container.hostname_override: container_name
+        io.rancher.container.pull_image: always
+
+volumes:
+  es-cluster-${cluster_name}:
+    driver: local
+    external: true
