@@ -1,7 +1,7 @@
-FROM openjdk:8u121-jre-alpine
+FROM openjdk:8u151-jre-alpine3.7
 MAINTAINER "linhaitao@finogeeks.com"
 
-RUN apk -U add bash
+RUN apk -U add bash curl
 
 ENV ES_VERSION=5.6.8
 # avoid conflicts with debian host systems when mounting to host volume
